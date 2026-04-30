@@ -64,6 +64,12 @@ public class AISummarizerService {
           "summary": "string",
           "action_items": ["string", "string", "string"]
         }
+        Rules:
+        - Summary: Make sure it include about 2–3 sentences
+        - Exactly 3 action items
+        - Action items must start with verbs
+        - Action items must be strictly based on the input text
+        - No extra text outside JSON
 
         Text:
         """ + text;
