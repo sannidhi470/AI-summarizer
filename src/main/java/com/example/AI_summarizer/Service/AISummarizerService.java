@@ -57,22 +57,38 @@ public class AISummarizerService {
 
     private String buildPrompt(String text) {
         return """
-        You are an AI assistant that summarizes text and extracts action items.
+        You are a strict text processing engine.
 
-        Return ONLY valid JSON in this format:
+        Your task:
+        1. Summarize the input text.
+        2. Extract exactly 3 action items.
+
+        OUTPUT REQUIREMENTS (STRICT):
+        - Output MUST be valid JSON only
+        - No explanations, no markdown, no extra text
+        - Do not include any text outside JSON
+
+        JSON schema:
         {
           "summary": "string",
           "action_items": ["string", "string", "string"]
         }
-        Rules:
-        - Summary: Make sure it include about 2–3 sentences
-        - Exactly 3 action items
-        - Action items must start with verbs
-        - Action items must be strictly based on the input text
-        - No extra text outside JSON
 
-        Text:
-        """ + text;
+        CONSTRAINTS:
+        - Summary must be 2–3 sentences
+        - Exactly 3 action items (no more, no less)
+        - Each action item must start with a verb (e.g., "Create", "Update", "Analyze")
+        - Action items must be strictly derived from the input text only
+        - Do not add external knowledge
+
+        QUALITY RULES:
+        - Be concise and non-redundant
+        - Avoid repeating the same idea in multiple action items
+        - Ensure action items are practical
+
+        INPUT TEXT:
+        """
+                + text;
     }
 
     private Response parseAIResponse(String content) {
